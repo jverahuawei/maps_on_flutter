@@ -39,19 +39,36 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.hms_map_kit_on_flutter"
+        applicationId "com.huawei.hms.maps.workshop"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
+    signingConfigs {       
+       config {            
+            storeFile file('huawei_test_kit_keystore.jks')
+            storePassword '1234567890'
+            keyAlias = 'huawei'
+            keyPassword '1234567890'
+            v1SigningEnabled true
+            v2SigningEnabled true       
+       }    
+    }   
+
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-        }
+        debug {            
+           signingConfig signingConfigs.config        
+       }       
+       release {            
+            signingConfig signingConfigs.config
+            // Enables code shrinking, obfuscation and optimization for release builds
+            minifyEnabled true
+            // Unused resources will be removed.
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'       
+       } 
     }
 }
 
